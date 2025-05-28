@@ -174,7 +174,7 @@ def generate_new_activity(first_activity: dict, second_activity: dict) -> dict:
         for dist in shortest_activity.get("distance")
     ]
 
-    new_activity: dict = {
+    return {
         "start_time": start_time,
         "total_elapsed_time": total_elapsed_time,
         "total_timer_time": total_timer_time,
@@ -209,24 +209,21 @@ def generate_new_activity(first_activity: dict, second_activity: dict) -> dict:
         )
     }
 
-    return new_activity
-
-if __name__ == "__main__":
-    FILETYPES = [("FIT Files", "*.fit")]
-
+def process_activities():
     first_fit_file_path = get_file_path("Select First FIT File")
     second_fit_file_path = get_file_path("Select Second FIT File")
 
-    first_fit_file: str = FitFile(os.path.basename(first_fit_file_path))
-    second_fit_file: str = FitFile(os.path.basename(second_fit_file_path))
+    first_fit_file = FitFile(os.path.basename(first_fit_file_path))
+    second_fit_file = FitFile(os.path.basename(second_fit_file_path))
 
     activities = [first_fit_file, second_fit_file]
-
     check_activities_type(activities)
 
     first_activity_info = extract_activity_info(first_fit_file)
     second_activity_info = extract_activity_info(second_fit_file)
 
-    new_activity_info: dict = generate_new_activity(first_activity_info, second_activity_info)
+    return generate_new_activity(first_activity_info, second_activity_info)
 
-    print(new_activity_info)
+
+if __name__ == "__main__":
+    new_activity = process_activities()
